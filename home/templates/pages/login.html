@@ -1,0 +1,45 @@
+{% extends "layouts/base.html" %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <form method="POST" action="">
+    <section class="vh-100 gradient-custom">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card bg-dark text-white" style="border-radius: 1rem; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+              <div class="card-body ps-5 pe-5">
+                
+                  <div class="mb-md-5 mt-md-4 pb-3">
+      
+                    <h2 class="fw-bold mb-2 text-uppercase text-center">Login</h2>
+                    {% csrf_token %}
+                    <div class="form-outline form-white mb-4">
+                        <label class="form-label" for="typeEmailX">Username :</label>
+                        <input type="text" name="username" id="typeEmailX" class="form-control form-control-lg" />
+                    </div>
+      
+                    <div class="form-outline form-white mb-4">
+                        <label class="form-label" for="typePasswordX">Password :</label>
+                        <input type="password" name="password" id="typePasswordX" class="form-control form-control-lg" />
+                    </div>
+      
+                    <div class="text-center">
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                    </div>
+                  </div>
+                
+                <div class="mb-3 text-center">
+                  <p class="mb-0">Don't have an account ? <a href="#" class="text-white-50 fw-bold ml-5 d-inline-block">Sign Up</a>
+                  </p>
+                </div>
+    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </form>
+{% endblock %}
