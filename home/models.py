@@ -16,3 +16,12 @@ class Product(models.Model):
     Discount = models.DecimalField(max_digits=5, decimal_places=2)
     CreatedAt = models.DateTimeField(auto_now_add=True)
     TypeID = models.ForeignKey(ProductType, on_delete=models.CASCADE)
+
+
+class Cart(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)

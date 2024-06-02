@@ -4,6 +4,9 @@ from .forms import RegisterForm
 # Create your views here.
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+#cart
+from django.shortcuts import get_object_or_404, redirect
+from .models import Cart, CartItem
 
 
 
@@ -43,6 +46,22 @@ def login(request):
     return render(request, 'pages/login.html')
 
 
+
+def view_cart(request):
+    # Lấy giỏ hàng từ session
+    cart = request.session.get('cart', {})
+    
+    # Lấy thông tin sản phẩm từ giỏ hàng
+    cart_items = []
+    total_price = 0
+    for product_id, item in cart.items():
+        product = get_object_or_404(Product, ProductID=product_id)
+        total_price += product.Price * item['quantity']
+        cart_items.append({'product': product, 'quantity': item['quantity']})
+
+    return render(request, 'pages/cart.html', {'cart_items': cart_items, 'total_price': total_price})
+
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -55,3 +74,18 @@ def register(request):
     return render(request, 'pages/register.html', {'form': form})
 
 
+
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, ProductID=product_id)
+    
+    # Lấy giỏ hàng từ session hoặc tạo mới nếu chưa có
+    cart, created = Cart.objects.get_or_create()
+    
+    # Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    
+    return redirect('view_cart')
